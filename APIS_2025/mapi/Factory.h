@@ -1,12 +1,13 @@
 #pragma once
 #include "Render.h"
 #include "GL1Render.h"
-#include "InputManager.h"
+#include "GL4Render.h"
+#include "GLSLMaterial.h"
 #include "GLFWInputManager.h"
-#include <memory>
 
 enum class GraphicsBackend {
-    GL1 // OpenGL 1.0
+    GL1, // OpenGL 1.0
+    GL4 // OpenGL 4.0
 };
 
 enum class InputBackend {
@@ -30,5 +31,6 @@ public:
     // Métodos
     static Render* getNewRender(int width, int height);
     static InputManager* getNewInputManager(GLFWwindow* window);
+    static Material* getNewMaterial();
     static bool isClosed(GLFWwindow* window);
 };

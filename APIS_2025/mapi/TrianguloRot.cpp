@@ -10,6 +10,21 @@ TrianguloRot::TrianguloRot() {
     mesh->addVertex({ glm::vec4(0.5f, -0.5f, 0.0f, 1.0f) });  // Vértice 2
     mesh->addVertex({ glm::vec4(0.0f, 0.5f, 0.0f, 1.0f) });   // Vértice 3
 
+    mesh->addTriangle(0, 1, 2);
+
+    // Material
+    Material* material = Factory::getNewMaterial();
+
+    // Cargar los shaders en el material
+    vector<string> shaderFiles = {
+        "vertex_shader.vert",
+        "fragment_shader.frag"
+    };
+    material->loadPrograms(shaderFiles);
+
+    // Asignar el material a la malla
+    mesh->setMaterial(material);
+
     // Asignar la malla
     setMesh(mesh);
 }

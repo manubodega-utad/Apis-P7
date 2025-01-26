@@ -27,7 +27,9 @@ Render* Factory::getNewRender(int width, int height) {
     if (selectedGraphicsBackend == GraphicsBackend::GL1) {
         return new GL1Render(width, height);
     }
-
+    if (selectedGraphicsBackend == GraphicsBackend::GL4) {
+        return new GL4Render(width, height);
+    }
     return nullptr;
 }
 
@@ -36,6 +38,13 @@ InputManager* Factory::getNewInputManager(GLFWwindow* window) {
         return new GLFWInputManager(window);
     }
 
+    return nullptr;
+}
+
+Material* Factory::getNewMaterial() {
+    if (selectedGraphicsBackend == GraphicsBackend::GL4) {
+        return new GLSLMaterial();
+    }
     return nullptr;
 }
 

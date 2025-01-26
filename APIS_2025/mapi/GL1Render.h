@@ -29,6 +29,6 @@ public:
     void init() override;
     void setupObject(Object* obj) override;
     void removeObject(Object* obj) override;
-    void drawObjects(const std::vector<Object*>* objs) override;
+    void drawObjects(const vector<Object*>* objs) override;
     bool isClosed() const override;
 };

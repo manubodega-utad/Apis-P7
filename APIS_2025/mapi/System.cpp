@@ -6,10 +6,15 @@ Render* System::render = nullptr;
 InputManager* System::inputManager = nullptr;
 bool System::end = false;
 World* System::world = nullptr;
+glm::mat4 System::ModelMatrix = glm::mat4(1.0f);
 
 // Getters
 World* System::getWorld() {
     return world;
+}
+
+const glm::mat4& System::getModelMatrix() {
+    return ModelMatrix;
 }
 
 // Setters
@@ -18,6 +23,10 @@ void System::setWorld(World* newWorld) {
         delete world;
     }
     world = newWorld;
+}
+
+void System::setModelMatrix(const glm::mat4& modelMatrix) {
+    ModelMatrix = modelMatrix;
 }
 
 // Métodos

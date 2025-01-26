@@ -78,6 +78,9 @@
     <ClCompile Include="mapi\GLSLMaterial.cpp">
       <Filter>Archivos de origen</Filter>
     </ClCompile>
+    <ClCompile Include="mapi\GL4Render.cpp">
+      <Filter>Archivos de origen</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="mapi\common.h">
@@ -140,5 +143,12 @@
     <ClInclude Include="mapi\GLSLMaterial.h">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
+    <ClInclude Include="mapi\GL4Render.h">
+      <Filter>Archivos de encabezado</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="data\fragment_shader.frag" />
+    <None Include="data\vertex_shader.vert" />
   </ItemGroup>
 </Project>

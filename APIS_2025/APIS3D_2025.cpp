@@ -7,9 +7,8 @@
 using namespace std;
 
 int main() {
-    // 1.- Inicializar el backend de la clase “FactoryEngine” para poder usar 
-    // OpenGL 1.0 y el input manager por defecto.
-    Factory::setSelectedGraphicsBackend(GraphicsBackend::GL1);
+    // 1.- Inicializar el backend de la clase “FactoryEngine” para poder usar OpenGL 4.0 y el input manager por defecto.
+    Factory::setSelectedGraphicsBackend(GraphicsBackend::GL4); // Cambiado a OpenGL 4.0
     Factory::setSelectedInputBackend(InputBackend::GLFW);
 
     // 2.- Inicializar la clase System
@@ -26,7 +25,7 @@ int main() {
     // 5.- Añadir el objeto World a System
     System::setWorld(world);
 
-    // 6.-  Ejecutar el mainLoop del sistema, hasta que el usuario presione la tecla “e”
+    // 6.- Ejecutar el mainLoop del sistema, hasta que el usuario presione la tecla “e”
     System::mainLoop();
 
     return 0;

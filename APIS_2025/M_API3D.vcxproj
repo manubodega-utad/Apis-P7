@@ -159,6 +159,7 @@
     <ClCompile Include="mapi\Entity.cpp" />
     <ClCompile Include="mapi\Factory.cpp" />
     <ClCompile Include="mapi\GL1Render.cpp" />
+    <ClCompile Include="mapi\GL4Render.cpp" />
     <ClCompile Include="mapi\GLFWInputManager.cpp" />
     <ClCompile Include="mapi\GLSLMaterial.cpp" />
     <ClCompile Include="mapi\GLSLProgram.cpp" />
@@ -177,6 +178,7 @@
     <ClInclude Include="mapi\Entity.h" />
     <ClInclude Include="mapi\Factory.h" />
     <ClInclude Include="mapi\GL1Render.h" />
+    <ClInclude Include="mapi\GL4Render.h" />
     <ClInclude Include="mapi\GLFWInputManager.h" />
     <ClInclude Include="mapi\GLSLMaterial.h" />
     <ClInclude Include="mapi\GLSLProgram.h" />
@@ -193,6 +195,10 @@
     <ClInclude Include="mapi\TrianguloRot.h" />
     <ClInclude Include="mapi\vertex.h" />
     <ClInclude Include="mapi\World.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="data\fragment_shader.frag" />
+    <None Include="data\vertex_shader.vert" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
