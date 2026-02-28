@@ -3,9 +3,7 @@
 int Mesh3D::nextId = 1;
 
 // Constructor
-Mesh3D::Mesh3D()
-	: meshID(nextId++),
-	colorRGBA(1.0f, 1.0f, 1.0f, 1.0f),
+Mesh3D::Mesh3D() : meshID(nextId++),
 	vVertList(),
 	mat(nullptr),
 	vTriangleIdxList(new std::vector<glm::uint32>())

@@ -9,7 +9,7 @@ typedef struct boIDS_t
     unsigned int id;
     unsigned int vbo;
     unsigned int idxbo;
-} boIDS_t;
+} boIDS_t; // Datos de Buffer Objects
 
 class GL4Render : public GL1Render
 {
@@ -24,6 +24,7 @@ public:
     ~GL4Render() override;
 
     // Métodos virtuales reimplementados
+    void init() override;
     void setupObject(Object* obj) override;
     void removeObject(Object* obj) override;
     void drawObjects(const std::vector<Object*>* objs) override;

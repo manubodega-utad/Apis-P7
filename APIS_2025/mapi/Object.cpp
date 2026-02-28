@@ -1,26 +1,31 @@
 #include "Object.h"
 
 
-
-
 // Constructor
-Object::Object() : mesh(nullptr), tipo(ObjectType::Object1) {}
+Object::Object() : tipo(ObjectType::Object1) {}
 
 // Destructor
 Object::~Object() {}
 
-// Getters"
+// Getters
 Mesh3D* Object::getMesh() const {
-    return mesh;
+    if (meshes.empty()) return nullptr;
+    return meshes[0];   // por compatibilidad con el render actual
 }
 
-void Object::setMesh(Mesh3D* newMesh) {
-    mesh = newMesh;
+const std::vector<Mesh3D*>& Object::getMeshes() const {
+    return meshes;
 }
 
-// Setters"
 int Object::getTipo() const {
     return static_cast<int>(tipo);
+}
+
+// Setters
+void Object::setMesh(Mesh3D* mesh) {
+    if (mesh) {
+        meshes.push_back(mesh);
+    }
 }
 
 void Object::setTipo(int newTipo) {

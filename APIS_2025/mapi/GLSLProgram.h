@@ -13,17 +13,19 @@ public:
     ~GLSLProgram() override;
 
     // Setters
-    void setInt(string& name, int val) override;
-    void setFloat(string& name, float val) override;
-    void setVec3(string& name, const glm::vec3& vec) override;
-    void setVec4(string& name, const glm::vec4& vec) override;
-    void setMatrix(string& name, const glm::mat4& mat) override;
+    void setInt(const string& name, int val) override;
+    void setFloat(const string& name, float val) override;
+    void setVec3(const string& name, const glm::vec3& vec) override;
+    void setVec4(const string& name, const glm::vec4& vec) override;
+    void setMatrix(const string& name, const glm::mat4& mat) override;
 
     // Métodos
     void addProgram(string& fileName) override;
     void linkProgram() override;
     void use() override;
     void checkLinkerErrors() override;
+    void setColorTextEnable(bool enable) override;
+    void bindColorTextureSampler(int binding, Texture* text) override;
 
 private:
     // Métodos propios

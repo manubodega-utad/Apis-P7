@@ -10,11 +10,8 @@ protected:
 
 public:
     // Constructor y destructor
-    Render() : width(800), height(600) {}
+    Render() : width(1600), height(1200) {}
     virtual ~Render() = default;
-
-    // Métodos virtuales puros
-    
 
     // Getters
     virtual int getWidth() const = 0;
@@ -24,7 +21,7 @@ public:
     virtual void setWidth(int newWidth) = 0;
     virtual void setHeight(int newHeight) = 0;
 
-    //Metodos
+    //Metodos virtuales
     virtual void init() = 0;
     virtual void setupObject(Object* obj) = 0;
     virtual void removeObject(Object* obj) = 0;

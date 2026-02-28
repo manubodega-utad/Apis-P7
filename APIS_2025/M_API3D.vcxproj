@@ -156,6 +156,9 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="APIS3D_2025.cpp" />
+    <ClCompile Include="mapi\Camera.cpp" />
+    <ClCompile Include="mapi\CameraFPS.cpp" />
+    <ClCompile Include="mapi\CameraKeyboard.cpp" />
     <ClCompile Include="mapi\Entity.cpp" />
     <ClCompile Include="mapi\Factory.cpp" />
     <ClCompile Include="mapi\GL1Render.cpp" />
@@ -164,16 +167,22 @@
     <ClCompile Include="mapi\GLSLMaterial.cpp" />
     <ClCompile Include="mapi\GLSLProgram.cpp" />
     <ClCompile Include="mapi\GLSLShader.cpp" />
+    <ClCompile Include="mapi\GLTexture.cpp" />
     <ClCompile Include="mapi\InputManager.cpp" />
+    <ClCompile Include="mapi\Light.cpp" />
     <ClCompile Include="mapi\Mesh3D.cpp" />
     <ClCompile Include="mapi\Object.cpp" />
     <ClCompile Include="mapi\Object3D.cpp" />
+    <ClCompile Include="mapi\OrbitalLight.cpp" />
     <ClCompile Include="mapi\Program.cpp" />
     <ClCompile Include="mapi\System.cpp" />
-    <ClCompile Include="mapi\TrianguloRot.cpp" />
+    <ClCompile Include="mapi\Texture.cpp" />
     <ClCompile Include="mapi\World.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="mapi\Camera.h" />
+    <ClInclude Include="mapi\CameraFPS.h" />
+    <ClInclude Include="mapi\CameraKeyboard.h" />
     <ClInclude Include="mapi\common.h" />
     <ClInclude Include="mapi\Entity.h" />
     <ClInclude Include="mapi\Factory.h" />
@@ -183,22 +192,25 @@
     <ClInclude Include="mapi\GLSLMaterial.h" />
     <ClInclude Include="mapi\GLSLProgram.h" />
     <ClInclude Include="mapi\GLSLShader.h" />
+    <ClInclude Include="mapi\GLTexture.h" />
     <ClInclude Include="mapi\InputManager.h" />
+    <ClInclude Include="mapi\Light.h" />
     <ClInclude Include="mapi\Material.h" />
     <ClInclude Include="mapi\Mesh3D.h" />
     <ClInclude Include="mapi\Object.h" />
     <ClInclude Include="mapi\Object3D.h" />
+    <ClInclude Include="mapi\OrbitalLight.h" />
     <ClInclude Include="mapi\Program.h" />
     <ClInclude Include="mapi\Render.h" />
     <ClInclude Include="mapi\RenderProgram.h" />
     <ClInclude Include="mapi\System.h" />
-    <ClInclude Include="mapi\TrianguloRot.h" />
+    <ClInclude Include="mapi\Texture.h" />
     <ClInclude Include="mapi\vertex.h" />
     <ClInclude Include="mapi\World.h" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="data\fragment_shader.frag" />
-    <None Include="data\vertex_shader.vert" />
+    <None Include="data\shader.frag" />
+    <None Include="data\shader.vert" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

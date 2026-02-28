@@ -16,6 +16,7 @@ protected:
 public:
     static Render* render;
     static InputManager* inputManager;
+
     // Getters
     static World* getWorld();
     static const glm::mat4& getModelMatrix();

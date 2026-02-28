@@ -13,7 +13,7 @@ class Program
     protected:
         programTypes_e type;
         std::string fileName;
-        unsigned int idProgram = 0xFFFFFFFF;
+        unsigned int idProgram;
 
     public:
         // Constructor

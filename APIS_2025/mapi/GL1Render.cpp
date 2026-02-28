@@ -53,66 +53,58 @@ void GL1Render::init() {
         }
 
         glfwMakeContextCurrent(window);
+        // 4. Configurar cursor (sin modificar System)
+        glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+        glfwSetCursorPos(window, 0.0, 0.0);
         gladLoadGL(glfwGetProcAddress);
-
-        // PARA LA PRÁCTICA 4
-        //activar carácteristica de profundidad 
-        //glEnable(GL_DEPTH_TEST);
+        glfwWindowHint(GLFW_RESIZABLE, GLFW_FALSE);
+        // PARA LA PRÁCTICA 4 activar carácteristica de profundidad 
+        // glEnable(GL_DEPTH_TEST);
     }
 }
 
 void GL1Render::setupObject(Object* obj)
 {
-    //PARA PRÁCTICA 4 VER CODIGO CLASE 25/01
-    /*
-    objList.push_back(obj);
-    for (auto& mesh : obj->meshList) {
-        if (boList.find(mesh->idObj) == boList.end())
-        {
-            BufferObject bo = { -1, -1, -1 };
-            glGenVertexArrays(1, bo & .idArray);
-            // .........
-               
-        }
-    }*/
+    if (!obj) return;
+
+    // Validar que el objeto tiene malla
+    if (!obj->getMesh()) {
+        std::cerr << "[Render] Objeto sin malla, no se puede dibujar\n";
+        return;
+    }
 }
 
 void GL1Render::removeObject(Object* obj)
 {
+    if (!obj)
+    {
+        std::cerr << "[GL4Render] Error: Objeto no válido en removeObject\n";
+        return;
+    }
 }
 
-//CAMBIAR PARA PRÁCTICA 4 VER CODIGO CLASE 25/01
-// DIBUJAR PARA CADA UNA DE LAS MALLAS
 // Dibuja una lista de objetos en pantalla
 void GL1Render::drawObjects(const std::vector<Object*>* objs) {
     // Limpiar buffer
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
-    glMatrixMode(GL_MODELVIEW);
-    glLoadIdentity();
+    glClear(GL_COLOR_BUFFER_BIT);
 
     for (auto& obj : *objs) {
-        if (!obj->getMesh()) continue;
+        Mesh3D* mesh = obj->getMesh();
+        if (!mesh) continue;
 
-        auto mesh = obj->getMesh();
-        auto vertices = mesh->getVertexList();
+        auto vertexList = mesh->getVertexList();
 
-        glPushMatrix();
-        {
-            glm::mat4 model = obj->getModel();
-            glMultMatrixf(glm::value_ptr(model));
+        glm::mat4 model = obj->getModel();
 
-            glBegin(GL_TRIANGLES);
-            for (auto& vertex : *vertices) {
-                glVertex3f(vertex.vPos.x, vertex.vPos.y, vertex.vPos.z);
-            }
-            glEnd();
+        // Dibujar Triangulos
+        glBegin(GL_TRIANGLES);
+        for (auto v : *vertexList) {
+            v.vPos = model * v.vPos;
+            glVertex3f(v.vPos.x, v.vPos.y, v.vPos.z);
         }
-        glPopMatrix();
-    }
+        glEnd();
 
-    glfwSwapBuffers(window);
-    glfwPollEvents();
+    }
 }
 
 bool GL1Render::isClosed() const {

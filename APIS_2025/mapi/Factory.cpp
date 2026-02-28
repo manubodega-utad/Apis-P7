@@ -48,7 +48,16 @@ Material* Factory::getNewMaterial() {
     return nullptr;
 }
 
+Texture* Factory::getNewTexture() {
+    if (selectedGraphicsBackend == GraphicsBackend::GL4) {
+        return new GLTexture();
+    }
+    return nullptr;
+}
+
 bool Factory::isClosed(GLFWwindow* window) {
-    if (!window) return true;
+    if (!window) {
+        return true;
+    }
     return glfwWindowShouldClose(window);
 }

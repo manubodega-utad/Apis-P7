@@ -9,7 +9,6 @@ class Mesh3D
 private:
 	static int nextId;
 	int meshID;
-	glm::vec4 colorRGBA;
 	vector<vertex_t> vVertList;
 	Material* mat;
 	vector<glm::uint32>* vTriangleIdxList;

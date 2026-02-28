@@ -3,6 +3,7 @@
 #include "GL1Render.h"
 #include "GL4Render.h"
 #include "GLSLMaterial.h"
+#include "GLTexture.h"
 #include "GLFWInputManager.h"
 
 enum class GraphicsBackend {
@@ -32,5 +33,6 @@ public:
     static Render* getNewRender(int width, int height);
     static InputManager* getNewInputManager(GLFWwindow* window);
     static Material* getNewMaterial();
+    static Texture* getNewTexture();
     static bool isClosed(GLFWwindow* window);
 };

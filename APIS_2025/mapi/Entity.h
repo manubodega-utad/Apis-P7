@@ -5,7 +5,7 @@ using namespace std;
 
 class Entity
 {
-private:
+protected:
 	glm::vec4 pos, rot, scale;
 	glm::mat4 model;
 public:
@@ -25,5 +25,5 @@ public:
 	void computeModelMatrix();
 
 	// Métodos
-	virtual void step(double deltaTime) = 0;
+	virtual void step(float deltaTime) = 0;
 };

@@ -1,5 +1,6 @@
 #include "GLSLProgram.h"
 #include "GLSLShader.h"
+#include "GLTexture.h"
 
 using namespace std;
 GLSLProgram::GLSLProgram() {
@@ -28,8 +29,8 @@ void GLSLProgram::linkProgram() {
     // Crear un programa
     idRenderProgram = glCreateProgram();
 
-    for (auto* sh : shaders) {
-        glAttachShader(idRenderProgram, sh->getID());
+    for (auto* &c : shaders) {
+        glAttachShader(idRenderProgram, c->getID());
     }
     // Linkar
     glLinkProgram(idRenderProgram);
@@ -58,26 +59,47 @@ void GLSLProgram::checkLinkerErrors() {
 }
 
 void GLSLProgram::readVarList() {
+    glUseProgram(this->idRenderProgram);
+    // Leer identificadores variables Attributtes
     int numAttributes = 0;
-    int numUniforms = 0;
     glGetProgramiv(idRenderProgram, GL_ACTIVE_ATTRIBUTES, &numAttributes);
     for (int i = 0; i < numAttributes; i++)
     {
-        char varName[100];
+        char name[101];
         int bufSize = 100, length = 0, size = 0;
-        GLenum type = -1;
-        glGetActiveAttrib(idRenderProgram, (GLuint)i, bufSize, &length, &size, &type, varName);
-        varList[std::string(varName)] = glGetAttribLocation(idRenderProgram, varName);
+        unsigned int type = -1; //GLEnum para float, char...
+        glGetActiveAttrib(idRenderProgram, (GLuint)i, bufSize, &length, &size, &type, name);
+        int layout = glGetAttribLocation(idRenderProgram, name);
+        varList[string(name)] = layout;
     }
+
+    // Leer identificadores variables Uniform
+    int numUniforms = 0;
     glGetProgramiv(idRenderProgram, GL_ACTIVE_UNIFORMS, &numUniforms);
     for (int i = 0; i < numUniforms; i++)
     {
-        char varName[100];
+        char name[101];
         int bufSize = 100, length = 0, size = 0;
-        GLenum type = -1;
-        glGetActiveUniform(idRenderProgram, (GLuint)i, bufSize, &length, &size, &type, varName);
-        varList[std::string(varName)] = glGetUniformLocation(idRenderProgram, varName);
+        unsigned int type = -1; //GLEnum para float, char...
+        glGetActiveUniform(idRenderProgram, (GLuint)i, bufSize, &length, &size, &type, name);
+        int layout = glGetUniformLocation(idRenderProgram, name);
+        varList[std::string(name)] = layout;
     }
+}
+
+void GLSLProgram::setColorTextEnable(bool enable) {
+    int loc = getVarLocation("useColorText");
+    if (loc != -1) {
+        glUniform1i(loc, enable ? 1 : 0);
+    }
+}
+
+void GLSLProgram::bindColorTextureSampler(int binding, Texture* text) {
+    int textureId = dynamic_cast<GLTexture*>(text)->getGLTextId();
+
+	glActiveTexture(GL_TEXTURE0 + binding); // Activar unidad de textura
+    glBindTexture(GL_TEXTURE_2D, textureId); // Enlazar
+    glUniform1i(getVarLocation("colorText"), binding);// Usar en shader
 }
 
 
@@ -92,37 +114,37 @@ unsigned int GLSLProgram::getVarLocation(std::string varName) {
 
 
 // SETTERS
-void GLSLProgram::setInt(string& name, int val) {
+void GLSLProgram::setInt(const string& name, int val) {
     auto location = getVarLocation(name);
     if (location != (unsigned int)-1) {
         glUniform1i(location, val);
     }
 }
 
-void GLSLProgram::setFloat(std::string& name, float val) {
+void GLSLProgram::setFloat(const std::string& name, float val) {
     auto location = getVarLocation(name);
     if (location != (unsigned int)-1) {
         glUniform1f(location, val);
     }
 }
 
-void GLSLProgram::setVec3(std::string& name, const glm::vec3& vec) {
+void GLSLProgram::setVec3(const std::string& name, const glm::vec3& vec) {
     auto location = getVarLocation(name);
     if (location != (unsigned int)-1) {
         glUniform3f(location, vec.x, vec.y, vec.z);
     }
 }
 
-void GLSLProgram::setVec4(std::string& name, const glm::vec4& vec) {
+void GLSLProgram::setVec4(const std::string& name, const glm::vec4& vec) {
     auto location = getVarLocation(name);
     if (location != (unsigned int)-1) {
         glUniform4f(location, vec.x, vec.y, vec.z, vec.w);
     }
 }
 
-void GLSLProgram::setMatrix(std::string& name, const glm::mat4& mat) {
+void GLSLProgram::setMatrix(const std::string& name, const glm::mat4& mat) {
     auto location = getVarLocation(name);
-    if (location != (unsigned int)-1) {
+    if (location != (unsigned int)-1) { /// Revisar este if
         glUniformMatrix4fv(location, 1, GL_FALSE, &mat[0][0]);
     }
 }

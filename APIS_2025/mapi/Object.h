@@ -15,7 +15,7 @@ enum class ObjectType {
 class Object : public Entity
 {
 	protected:
-		Mesh3D* mesh;
+		std::vector<Mesh3D*> meshes;
 		ObjectType tipo;
 	public:
 		// Constructor
@@ -24,6 +24,7 @@ class Object : public Entity
 
 		// Getters
         Mesh3D* getMesh() const;
+		const std::vector<Mesh3D*>& getMeshes() const;
 		int getTipo() const;
 
 		// Setters

@@ -1,4 +1,4 @@
-#include "Entity.h"
+ï»¿#include "Entity.h"
 
 //Constructor
 Entity::Entity()
@@ -43,21 +43,22 @@ void Entity::setScale(glm::vec4 scale)
 	this->scale = scale;
 }
 
-// Métodos
+// MÃ©todos
 
 void Entity::computeModelMatrix()
 {
 	// Primero la igualamos a la matriz Identidad
-	model = glm::mat4(1);
+	model = glm::mat4(1.0f);
 
 	//Aplicamos traslacion
 	model = glm::translate(model, glm::vec3(pos));
 
-	// Aplicamos rotación
-	model = glm::rotate(model, rot.x, { 1.0f, 0.0f, 0.0f });
-	model = glm::rotate(model, rot.y, { 0.0f, 1.0f, 0.0f });
-	model = glm::rotate(model, rot.z, { 0.0f, 0.0f, 1.0f });
+	// Aplicamos rotaciÃ³n
+	model = glm::rotate(model, glm::radians(rot.x), glm::vec3{ 1.0f, 0.0f, 0.0f }); //Rotar x
+	model = glm::rotate(model, glm::radians(rot.y), glm::vec3{ 0.0f, 1.0f, 0.0f }); //Rotar y
+	model = glm::rotate(model, glm::radians(rot.z), glm::vec3{ 0.0f, 0.0f, 1.0f }); //Rotar z
 
 	//Aplicamos Escalado
 	model = glm::scale(model, glm::vec3(scale));
+
 }
