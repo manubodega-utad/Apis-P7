@@ -98,6 +98,11 @@ void World::removeObject(Object* obj) {
 
 // Actualiza el estado del mundo
 void World::update(float deltaTime) {
+    for (Light* l : lights) {
+        if (l) {
+            l->step(deltaTime);
+        }
+    }
     for (Camera* cam : cameras) {
         if (cam) {
             cam->step(deltaTime);

@@ -1,5 +1,11 @@
 #include "OrbitalLight.h"
 
+OrbitalLight::OrbitalLight(const glm::vec4& c, float r, float s)
+	: Light(Type::POINT, glm::vec4(1.0f, 0.0f, 0.0f, 1.0f), glm::vec4(0.0f), glm::vec3(c.x + r, c.y, c.z), true, 0.2f),
+	center(c), radius(r), speed(s), currentAngle(0.0f)
+{
+}
+
 glm::vec4 OrbitalLight::getCenter() const
 {
 	return center;
@@ -32,13 +38,14 @@ void OrbitalLight::setSpeed(float newSpeed)
 
 void OrbitalLight::step(float timeStep)
 {
-	float angle = static_cast<float>(timeStep * speed);
-	float theta = std::atan2(pos.z - center.z, pos.x - center.x);
+	currentAngle += static_cast<float>(timeStep * speed);
 
-	theta += angle;
+	// 2. Calculamos la nueva posición X y Z orbitando sobre el centro
+	glm::vec4 currentPos = getPosition();
+	currentPos.x = center.x + radius * std::cos(currentAngle);
+	currentPos.z = center.z + radius * std::sin(currentAngle);
 
-	pos.x = center.x + radius * cos(theta);
-	pos.z = center.z + radius * sin(theta);
-
+	// 3. Aplicamos la posición a la Entidad
+	setPosition(currentPos);
 	computeModelMatrix();
 }

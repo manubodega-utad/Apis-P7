@@ -6,6 +6,7 @@
 #include "mapi/CameraFPS.h"
 #include "mapi/Object3D.h"
 #include "mapi/Light.h"
+#include "mapi/OrbitalLight.h"
 using namespace std;
 
 int main() {
@@ -44,24 +45,12 @@ int main() {
     System::getWorld()->addLight(dirLight);
 
     // LUZ 2: Puntual (Roja)
-    Light* pointLight = new Light(
-        Light::Type::POINT,
-        glm::vec4(1.0f, 0.0f, 0.0f, 1.0f),
-        glm::vec4(0.0f),
-        glm::vec3(5.0f, 2.0f, 0.0f),
-        true, 0.05f
+    OrbitalLight* orbLight = new OrbitalLight(
+        glm::vec4(0.0f, 0.0f, 0.0f, 1.0f),
+        10.0f,
+        1.0f
     );
-    System::getWorld()->addLight(pointLight);
-
-    // LUZ 3: Focal/Spot (Azul)
-    Light* spotLight = new Light(
-        Light::Type::SPOT,
-        glm::vec4(0.0f, 0.0f, 1.0f, 1.0f),
-        glm::vec4(-0.5f, -1.0f, -1.0f, 0.0f),
-        glm::vec3(0.6f, 2.0f, 1.5f),
-        true, 0.02f, 15.0f
-    );
-    System::getWorld()->addLight(spotLight);
+    System::getWorld()->addLight(orbLight);
 
     // 6) Cargar Feng_Shui.msh (P5)
     auto dataFile = "data/feng_shui/Feng_Shui.msh";
