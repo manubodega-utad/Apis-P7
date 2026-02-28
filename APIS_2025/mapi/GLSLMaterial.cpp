@@ -84,6 +84,7 @@ void GLSLMaterial::prepare() {
             glsl->setInt("lights[" + std::to_string(i) + "].type", static_cast<int>(l->getType()));
             glsl->setInt("lights[" + std::to_string(i) + "].enable", l->getEnable() ? 1 : 0);
             glsl->setFloat("lights[" + std::to_string(i) + "].linearAttenuation", l->getLinearAttenuation());
+            glsl->setFloat("lights[" + std::to_string(i) + "].cutOff", l->getCutOff());
 
             i++;
         }

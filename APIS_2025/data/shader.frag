@@ -11,6 +11,7 @@ struct Light{
 	int type;
 	int enable;
 	float linearAttenuation;
+    float cutOff;
 };
 
 struct Material{

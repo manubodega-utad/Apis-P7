@@ -130,24 +130,29 @@ bool Object3D::loadObj(string obj, Mesh3D* mesh)
     std::vector<glm::vec4> vNorm;
     bool computeNormals = false;
     std::string line;
+    int vertexOffset = 0;
 
     while (std::getline(f, line, '\n')) {
         std::istringstream str(line);
         std::string key;
         str >> key;
 
+        if (key.empty()) continue;
+
         if (key[0] != '#') {
-            /*if (key == "o")
-            {
-                if (mesh) meshes.push_back(mesh);
+            if (key == "o") {
+                meshes.push_back(mesh);
+                Material* mat = mesh->getMaterial();
                 mesh = new Mesh3D();
-                mesh->setMaterial();
+                mesh->setMaterial(mat);
                 vertexOffset = vPos.size();
-            }*/
+                
+            }
             if (key == "v") {
                 glm::vec4 v(1.0f);
                 str >> v.x >> v.y >> v.z;
                 vPos.push_back(v);
+                mesh->addVertex(vertex_t{});
             }
             else if (key == "vn") {
                 glm::vec4 v(0);
@@ -159,35 +164,45 @@ bool Object3D::loadObj(string obj, Mesh3D* mesh)
                 str >> v.x >> v.y;
                 vTC.push_back(v);
             }
-            else if (key == "f") {
+            else if (key == "f")
+            {
                 std::string vert;
                 vertex_t v[3];
+                int vIndex[3] = { 0 };
+                auto* vtxList = const_cast<std::vector<vertex_t>*>(mesh->getVertexList());
 
-                for (int i = 0; i < 3; i++) {
+                for (int i = 0; i < 3; i++)
+                {
                     str >> vert;
                     auto indexes = splitString<int>(vert, '/');
-                    if (indexes.size() == 3) {
-                        v[i].vPos = vPos[indexes[0] - 1];
-						v[i].vColor = glm::vec4(0);
-                        v[i].vNorm = vNorm[indexes[2] - 1];
-                        v[i].vTextCoords = vTC[indexes[1] - 1];
+
+                    if (indexes.size() == 3)
+                    {
+                        v[i] = {
+                            vPos[indexes[0] - 1],
+                            glm::vec4(0.0f),
+                            (indexes[2] > 0 && !vNorm.empty()) ? vNorm[indexes[2] - 1] : glm::vec4(0.0f),
+                            (indexes[1] > 0 && !vTC.empty()) ? vTC[indexes[1] - 1] : glm::vec2(0.0f)
+                        };
                     }
-                    else if (indexes.size() == 1) {
-                        v[i].vPos = vPos[indexes[0] - 1];
-						v[i].vColor = glm::vec4(0);
-                        v[i].vNorm = glm::vec4(0);
-                        v[i].vTextCoords = glm::vec2(0);
+                    else if (indexes.size() == 1)
+                    {
+                        v[i] = {
+                            vPos[indexes[0] - 1],
+                            glm::vec4(0.0f),
+                            glm::vec4(0.0f),
+                            glm::vec2(0.0f)
+                        };
                         computeNormals = true;
                     }
-                    mesh->addVertex(v[i]);
-                }
 
-                int numVerts = mesh->getVertexList()->size();
-                mesh->addTriangle(numVerts - 3, numVerts - 2, numVerts - 1);
+                    (*vtxList)[indexes[0] - 1 - vertexOffset] = v[i];
+                    mesh->getTriangleIdxList()->push_back(indexes[0] - 1 - vertexOffset);
+                }
             }
         }
     }
-
+    if (mesh) meshes.push_back(mesh);
     if (computeNormals) recomputeNormals();
     f.close();
 
@@ -202,23 +217,26 @@ void Object3D::recomputeNormals()
         auto* idx = m->getTriangleIdxList();
         auto* vtx = const_cast<std::vector<vertex_t>*>(m->getVertexList());
 
-        // reset normales
-        for (auto& v : *vtx) v.vNorm = glm::vec4(0.0f);
+        // 1. Resetear normales
+        for (auto& v : *vtx) {
+            v.vNorm = glm::vec4(0.0f);
+        }
 
-        // recorrer triángulos (cada 3 índices)
-        for (size_t i = 0; i + 2 < idx->size(); i += 3)
+        // 2. Recorrer la lista de índices de vértices
+        for (auto it = idx->begin(); it != idx->end(); )
         {
-            vertex_t& v1 = (*vtx)[(*idx)[i]];
-            vertex_t& v2 = (*vtx)[(*idx)[i + 1]];
-            vertex_t& v3 = (*vtx)[(*idx)[i + 2]];
+            vertex_t& v1 = (*vtx)[*it]; it++;
+            vertex_t& v2 = (*vtx)[*it]; it++;
+            vertex_t& v3 = (*vtx)[*it]; it++;
 
             glm::vec3 l1 = glm::normalize(glm::vec3(v2.vPos - v1.vPos));
             glm::vec3 l2 = glm::normalize(glm::vec3(v2.vPos - v3.vPos));
-            glm::vec3 n = glm::normalize(glm::cross(l2, l1));
+            glm::vec3 norm = glm::normalize(glm::cross(l2, l1));
 
-            v1.vNorm = glm::normalize(v1.vNorm + glm::vec4(n, 0.0f));
-            v2.vNorm = glm::normalize(v2.vNorm + glm::vec4(n, 0.0f));
-            v3.vNorm = glm::normalize(v3.vNorm + glm::vec4(n, 0.0f));
+            // Acumular la normal y normalizar
+            v1.vNorm = glm::normalize(v1.vNorm + glm::vec4(norm, 0.0f));
+            v2.vNorm = glm::normalize(v2.vNorm + glm::vec4(norm, 0.0f));
+            v3.vNorm = glm::normalize(v3.vNorm + glm::vec4(norm, 0.0f));
         }
     }
 }

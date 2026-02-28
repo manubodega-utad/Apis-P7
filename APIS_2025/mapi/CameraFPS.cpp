@@ -5,8 +5,8 @@ CameraFPS::CameraFPS(projectionType_e type, glm::vec3 position, glm::vec3 up, gl
     : Camera(type, position, up, lookAt), speed(speed), sensitivity(sensitivity) {
 
     front = glm::normalize(lookAt - position);
-    yaw = -90.0f;
-    pitch = 0.0f;
+    pitch = glm::degrees(asin(front.y));
+    yaw = glm::degrees(atan2(front.z, front.x));
     updateCameraVectors();
 }
 

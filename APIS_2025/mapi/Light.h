@@ -11,9 +11,16 @@ private:
     glm::vec4 direction = { 0,0,0,0 };
     bool enabled;
     float linearAttenuation;
+    float cutOff;
 
 public:
-    Light();
+    Light(Type type = Type::DIRECTIONAL,
+        glm::vec4 color = glm::vec4(1.0f),
+        glm::vec4 direction = glm::vec4(0.0f, -1.0f, 0.0f, 0.0f),
+        glm::vec3 position = glm::vec3(0.0f),
+        bool enable = true,
+        float linearAttenuation = 0.09f,
+        float cutOffAngle = 12.5f);
 
     Type getType() const;
     void setType(Type t);
@@ -26,6 +33,9 @@ public:
 
     float getLinearAttenuation() const;
     void setLinearAttenuation(float att);
+
+    float getCutOff() const;
+    void setCutOff(float angle);
 
     bool getEnable() const;
     void setEnable(bool e);

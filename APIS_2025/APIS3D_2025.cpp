@@ -34,20 +34,38 @@ int main() {
     // 4) Ambient (P5)
     System::getWorld()->setAmbient(0.2f);
 
-    // 5) UNA LUZ direccional blanca (P5 punto 5)
-    Light* dirLight = new Light();
-    dirLight->setEnable(true);
-    dirLight->setType(Light::Type::DIRECTIONAL);
-    dirLight->setColor(glm::vec4(1.0f, 1.0f, 1.0f, 1.0f));
-    dirLight->setDirection(glm::vec4(0.0f, 1.0f, -1.0f, 0.0f)); // w=0
-
+    // 5) LUCES
+    // LUZ 1: Direccional (Blanco suave)
+    Light* dirLight = new Light(
+        Light::Type::DIRECTIONAL,
+        glm::vec4(0.5f, 0.5f, 0.5f, 1.0f),
+        glm::vec4(0.0f, 1.0f, -1.0f, 0.0f)
+    );
     System::getWorld()->addLight(dirLight);
+
+    // LUZ 2: Puntual (Roja)
+    Light* pointLight = new Light(
+        Light::Type::POINT,
+        glm::vec4(1.0f, 0.0f, 0.0f, 1.0f),
+        glm::vec4(0.0f),
+        glm::vec3(5.0f, 2.0f, 0.0f),
+        true, 0.05f
+    );
+    System::getWorld()->addLight(pointLight);
+
+    // LUZ 3: Focal/Spot (Azul)
+    Light* spotLight = new Light(
+        Light::Type::SPOT,
+        glm::vec4(0.0f, 0.0f, 1.0f, 1.0f),
+        glm::vec4(-0.5f, -1.0f, -1.0f, 0.0f),
+        glm::vec3(0.6f, 2.0f, 1.5f),
+        true, 0.02f, 15.0f
+    );
+    System::getWorld()->addLight(spotLight);
 
     // 6) Cargar Feng_Shui.msh (P5)
     auto dataFile = "data/feng_shui/Feng_Shui.msh";
     Object3D* objeto = new Object3D(dataFile);
-
-    // Escala del enunciado
     objeto->setScale(glm::vec4(0.005f, 0.005f, 0.005f, 1.0f));
     objeto->computeModelMatrix();
 
