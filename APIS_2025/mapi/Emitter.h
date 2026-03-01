@@ -18,12 +18,18 @@ private:
     glm::vec4 minColor, maxColor;
 
     bool emitBool;
-    float objAccum;
+    float remainingParticles;
     std::list<Particle*> particleList;
 
 public:
     // Constructor
-    Emitter(std::string mshFile, float emissionRate, glm::vec4 position, bool autofade);
+    Emitter(std::string mshFile, glm::vec4 position, bool autofade,
+        float minRate, float maxRate,
+        float minLife, float maxLife,
+        glm::vec3 minVel, glm::vec3 maxVel,
+        float minSpin, float maxSpin,
+        float minScale, float maxScale,
+        glm::vec4 minCol, glm::vec4 maxCol);
 
     // Destructor
     virtual ~Emitter();

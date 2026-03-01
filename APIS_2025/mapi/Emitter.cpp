@@ -2,16 +2,26 @@
 #include "System.h"
 #include "GL4Render.h"
 
-Emitter::Emitter(std::string mshFile, float emissionRate, glm::vec4 position, bool autofade)
+Emitter::Emitter(std::string mshFile, glm::vec4 position, bool autofade,
+    float minRate, float maxRate,
+    float minLife, float maxLife,
+    glm::vec3 minVel, glm::vec3 maxVel,
+    float minSpin, float maxSpin,
+    float minScale, float maxScale,
+    glm::vec4 minCol, glm::vec4 maxCol)
 {
     this->mshFile = mshFile;
-    this->minRate = emissionRate;
-    this->maxRate = emissionRate;
-    this->pos = position;
+    this->pos = glm::vec4(position);
     this->autoFade = autofade;
-
     this->emitBool = true;
-    this->objAccum = 0.0f;
+    this->remainingParticles = 0.0f;
+
+    this->minRate = minRate;           this->maxRate = maxRate;
+    this->minLifeTime = minLife;       this->maxLifeTime = maxLife;
+    this->minVelocity = minVel;        this->maxVelocity = maxVel;
+    this->minSpinVelocity = minSpin;   this->maxSpinVelocity = maxSpin;
+    this->minScale = minScale;         this->maxScale = maxScale;
+    this->minColor = minCol;           this->maxColor = maxCol;
 }
 
 Emitter::~Emitter()
@@ -82,12 +92,12 @@ void Emitter::step(float deltaTime)
 {
     // 1. GENERACIÓN DE PARTÍCULAS
     if (emitBool) {
-        float genRate = glm::linearRand(minRate, maxRate);
-        objAccum += genRate * deltaTime;
-        int numObjetToGen = (int)(objAccum);
-        objAccum -= numObjetToGen;
+        float rateEmision = glm::linearRand(minRate, maxRate);
+        remainingParticles += rateEmision * deltaTime;
+        int particlesToEmit = (int)(remainingParticles);
+        remainingParticles -= particlesToEmit;
 
-        for (int i = 0; i < numObjetToGen; i++)
+        for (int i = 0; i < particlesToEmit; i++)
         {
             glm::vec3 velocity = glm::linearRand(minVelocity, maxVelocity);
             float spinVelocity = glm::linearRand(minSpinVelocity, maxSpinVelocity);
@@ -99,7 +109,7 @@ void Emitter::step(float deltaTime)
             p->computeModelMatrix();
 
             particleList.push_back(p);
-            System::getWorld()->addObject(p);
+            System::addObject(p);
         }
     }
 

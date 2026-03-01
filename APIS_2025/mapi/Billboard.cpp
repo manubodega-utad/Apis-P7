@@ -2,7 +2,7 @@
 #include "System.h"
 #include <glm/gtc/matrix_transform.hpp>
 
-Billboard::Billboard() : Object3D(""), spin(0.0f)
+Billboard::Billboard() : Object3D("", glm::vec4(0.0f, 0.0f, 0.0f, 1.0f), glm::vec4(0.0f, 0.0f, 0.0f, 1.0f), glm::vec4(1.0f, 1.0f, 1.0f, 1.0f)), spin(0.0f)
 {
 }
 

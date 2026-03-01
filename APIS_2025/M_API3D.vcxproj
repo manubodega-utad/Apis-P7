@@ -160,6 +160,7 @@
     <ClCompile Include="mapi\Camera.cpp" />
     <ClCompile Include="mapi\CameraFPS.cpp" />
     <ClCompile Include="mapi\CameraKeyboard.cpp" />
+    <ClCompile Include="mapi\CameraOrbital.cpp" />
     <ClCompile Include="mapi\Emitter.cpp" />
     <ClCompile Include="mapi\Entity.cpp" />
     <ClCompile Include="mapi\Factory.cpp" />
@@ -187,6 +188,7 @@
     <ClInclude Include="mapi\Camera.h" />
     <ClInclude Include="mapi\CameraFPS.h" />
     <ClInclude Include="mapi\CameraKeyboard.h" />
+    <ClInclude Include="mapi\CameraOrbital.h" />
     <ClInclude Include="mapi\common.h" />
     <ClInclude Include="mapi\Emitter.h" />
     <ClInclude Include="mapi\Entity.h" />

@@ -26,6 +26,7 @@ uniform int activeLights;
 uniform Material mat;
 uniform vec4 eyePos;
 uniform float ambient;
+uniform int useLighting;
 
 in vec4 fPos;
 in vec4 fColor;
@@ -41,6 +42,11 @@ void main()
     vec4 baseColor = mat.color;
     if (mat.useColorText) {
         baseColor = texture(colorText, fTextCoords);
+    }
+
+    if (useLighting == 0) {
+        fragColor = baseColor;
+        return;
     }
 
     // ===== NORMAL Y VISTA =====

@@ -4,7 +4,7 @@
 class Object3D : public Object {
 public:
     // Constructor
-    Object3D(string mshFile);
+    Object3D(string mshFile, glm::vec4 position, glm::vec4 rotation, glm::vec4 scale);
 
     // Destructor
     virtual ~Object3D();

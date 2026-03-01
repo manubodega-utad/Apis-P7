@@ -66,6 +66,9 @@ void GLSLMaterial::prepare() {
         std::string ambientName = "ambient";
         glsl->setFloat(ambientName, world->getAmbient());
 
+        std::string lightingName = "useLighting";
+        glsl->setInt(lightingName, this->lighting ? 1 : 0);
+
         // CAMARA
         std::string camPosName = "eyePos";
         glsl->setVec4(camPosName, cam->getPosition());

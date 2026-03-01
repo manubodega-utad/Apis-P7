@@ -4,7 +4,7 @@
 #include <iostream>
 
 Particle::Particle(std::string mshFile, const glm::vec3& vel, float spinVel, double lifetime, bool autofade)
-    : Billboard() // Llama al constructor base de Billboard
+    : Billboard()
 {
     loadDataFromFile(mshFile);
     this->vel = glm::vec4(vel, 0.0f);

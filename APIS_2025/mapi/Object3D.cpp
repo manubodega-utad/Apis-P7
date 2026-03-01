@@ -12,11 +12,20 @@ using namespace std;
 static std::map<std::string, std::vector<Mesh3D*>> meshCache;
 
 // Constructor
-Object3D::Object3D(string mshFile) : Object() 
+Object3D::Object3D(string mshFile, glm::vec4 position, glm::vec4 rotation, glm::vec4 scale) : Object()
 {
+    // 1. Aplicamos las transformaciones usando tus propios setters heredados de Entity
+    this->setPosition(position);
+    this->setRotation(rotation);
+    this->setScale(scale);
+
+    // 2. Cargamos el archivo .msh
     if (mshFile != "") {
         loadDataFromFile(mshFile);
     }
+
+    // 3. Calculamos la matriz automáticamente para la GPU
+    this->computeModelMatrix();
 }
 
 // Destructor
