@@ -1,3 +1,41 @@
-﻿  Object3D.cpp
-C:\Users\operador\OneDrive - BMC CONSTRUCTION, ESTUDIO & CONTRACT, S.L.U\Documentos\Utad\Apis Tridimensionales\Practicas\Practica6\Apis-P6\APIS_2025\mapi\Object3D.cpp(216,41): warning C4267: '=': conversión de 'size_t' a 'int'; posible pérdida de datos
-  M_API3D.vcxproj -> C:\Users\operador\OneDrive - BMC CONSTRUCTION, ESTUDIO & CONTRACT, S.L.U\Documentos\Utad\Apis Tridimensionales\Practicas\Practica6\Apis-P6\APIS_2025\x64\Debug\M_API3D.exe
+﻿  APIS3D_2025.cpp
+  Billboard.cpp
+  Camera.cpp
+  CameraFPS.cpp
+  CameraKeyboard.cpp
+  CameraOrbital.cpp
+  Emitter.cpp
+  Entity.cpp
+  Factory.cpp
+  GL1Render.cpp
+  GL4Render.cpp
+C:\Users\operador\OneDrive - BMC CONSTRUCTION, ESTUDIO & CONTRACT, S.L.U\Documentos\Utad\Apis Tridimensionales\Practicas\Practica7\Apis-P7\APIS_2025\mapi\GL4Render.cpp(60,25): warning C4267: 'inicializando': conversión de 'size_t' a 'int'; posible pérdida de datos
+C:\Users\operador\OneDrive - BMC CONSTRUCTION, ESTUDIO & CONTRACT, S.L.U\Documentos\Utad\Apis Tridimensionales\Practicas\Practica7\Apis-P7\APIS_2025\mapi\GL4Render.cpp(65,55): warning C4267: '=': conversión de 'size_t' a 'int'; posible pérdida de datos
+C:\Users\operador\OneDrive - BMC CONSTRUCTION, ESTUDIO & CONTRACT, S.L.U\Documentos\Utad\Apis Tridimensionales\Practicas\Practica7\Apis-P7\APIS_2025\mapi\GL4Render.cpp(139,74): warning C4267: 'argumento': conversión de 'size_t' a 'GLsizei'; posible pérdida de datos
+  GLFWInputManager.cpp
+  GLSLMaterial.cpp
+  GLSLProgram.cpp
+  GLSLShader.cpp
+  GLTexture.cpp
+  InputManager.cpp
+  Light.cpp
+  Mesh3D.cpp
+  Object.cpp
+  Generando código...
+  Compilando...
+  Object3D.cpp
+C:\Users\operador\OneDrive - BMC CONSTRUCTION, ESTUDIO & CONTRACT, S.L.U\Documentos\Utad\Apis Tridimensionales\Practicas\Practica7\Apis-P7\APIS_2025\mapi\Object3D.cpp(216,41): warning C4267: '=': conversión de 'size_t' a 'int'; posible pérdida de datos
+  OrbitalLight.cpp
+  Particle.cpp
+C:\Users\operador\OneDrive - BMC CONSTRUCTION, ESTUDIO & CONTRACT, S.L.U\Documentos\Utad\Apis Tridimensionales\Practicas\Practica7\Apis-P7\APIS_2025\mapi\Particle.cpp(49,23): warning C4244: '=': conversión de 'double' a 'T'; posible pérdida de datos
+C:\Users\operador\OneDrive - BMC CONSTRUCTION, ESTUDIO & CONTRACT, S.L.U\Documentos\Utad\Apis Tridimensionales\Practicas\Practica7\Apis-P7\APIS_2025\mapi\Particle.cpp(49,23): warning C4244:         with
+C:\Users\operador\OneDrive - BMC CONSTRUCTION, ESTUDIO & CONTRACT, S.L.U\Documentos\Utad\Apis Tridimensionales\Practicas\Practica7\Apis-P7\APIS_2025\mapi\Particle.cpp(49,23): warning C4244:         [
+C:\Users\operador\OneDrive - BMC CONSTRUCTION, ESTUDIO & CONTRACT, S.L.U\Documentos\Utad\Apis Tridimensionales\Practicas\Practica7\Apis-P7\APIS_2025\mapi\Particle.cpp(49,23): warning C4244:             T=float
+C:\Users\operador\OneDrive - BMC CONSTRUCTION, ESTUDIO & CONTRACT, S.L.U\Documentos\Utad\Apis Tridimensionales\Practicas\Practica7\Apis-P7\APIS_2025\mapi\Particle.cpp(49,23): warning C4244:         ]
+  Program.cpp
+  System.cpp
+  Texture.cpp
+  World.cpp
+  Generando código...
+LINK : warning LNK4098: la biblioteca predeterminada'MSVCRT' entra en conflicto con otras bibliotecas; use la biblioteca /NODEFAULTLIB:biblioteca
+  M_API3D.vcxproj -> C:\Users\operador\OneDrive - BMC CONSTRUCTION, ESTUDIO & CONTRACT, S.L.U\Documentos\Utad\Apis Tridimensionales\Practicas\Practica7\Apis-P7\APIS_2025\x64\Debug\M_API3D.exe
