@@ -53,13 +53,42 @@ void GLSLMaterial::prepare() {
         std::string shininessName = "mat.shininess";
         glsl->setInt(shininessName, getShininess());
 
+        std::string computeLightName = "mat.computeLight";
+        glsl->setInt(computeLightName, getLighting());
+
+        std::string reflectionName = "mat.reflection";
+        glsl->setInt(reflectionName, getReflection());
+
+        std::string refractionName = "mat.refraction";
+        glsl->setInt(refractionName, getRefraction());
+
+        std::string refractionIndexName = "mat.refractionIndex";
+        glsl->setFloat(refractionIndexName, getRefractionCoef());
+
         // TEXTURAS
-        if (colorText) {
-            glsl->setInt("mat.useColorText", 1);
-            glsl->bindColorTextureSampler(0, colorText);
-        }
-        else {
-            glsl->setInt("mat.useColorText", 0);
+        int binding2D = 0;
+        int bindingCube = 5;
+
+        glsl->setColorTextDisable("ColorText");
+        glsl->setColorTextDisable("textureNormal");
+
+        for (auto& [name, tex] : textures) {
+            GLTexture* glTex = dynamic_cast<GLTexture*>(tex);
+
+            if (glTex->isCubic()) {
+                glsl->bindColorTextureSampler(bindingCube, tex, name);
+                glsl->setInt("mat.textureType", 1);
+                glsl->setColorTextEnable("ColorText");
+            }
+            else if (name == "textureNormal") {
+                glsl->bindColorTextureSampler(binding2D++, tex, name);
+                glsl->setColorTextEnable("textureNormal");
+            }
+            else {
+                glsl->bindColorTextureSampler(binding2D++, tex, name);
+                glsl->setInt("mat.textureType", 0);
+                glsl->setColorTextEnable("ColorText");
+            }
         }
 
         //AMBIENTE
@@ -72,6 +101,9 @@ void GLSLMaterial::prepare() {
         // CAMARA
         std::string camPosName = "eyePos";
         glsl->setVec4(camPosName, cam->getPosition());
+
+        glm::vec4 camPosV4 = cam->getPosition();
+        glsl->setVec3("camPos", glm::vec3(camPosV4.x, camPosV4.y, camPosV4.z));
 
         // LUCES
         int i = 0;
@@ -98,7 +130,7 @@ void GLSLMaterial::prepare() {
         glsl->setCulling(this->culling);
         glsl->setDepthWrite(this->depthWrite);
         glsl->setBlendMode(this->blendMode);
-    }else 
+    }else
     {
         cout << "[GLSLMaterial] ERROR: No se pudo hacer dynamic_cast a GLSLProgram" << endl;
     }

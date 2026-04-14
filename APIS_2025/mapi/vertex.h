@@ -2,8 +2,9 @@
 #include "common.h"
 typedef struct
 {
-	glm::vec4 vPos; //PosiciÛn VÈrtice XYZW
+	glm::vec4 vPos; //Posici√≥n V√©rtice XYZW
 	glm::vec4 vColor; //Color RGBA
-	glm::vec4 vNorm; //Vector normal por vÈrtice
-	glm::vec2 vTextCoords; //Coordenadas de textura por vÈrtice
+	glm::vec4 vNorm; //Vector normal por v√©rtice
+	glm::vec2 vTextCoords; //Coordenadas de textura por v√©rtice
+	glm::vec4 vTan; //Tangente por v√©rtice (para normal mapping)
 }vertex_t;

@@ -10,7 +10,7 @@ using namespace std;
 
 enum class BlendMode {
     NONE,   // Objetos opacos
-    ALPHA,  // Transparencia est·ndar
+    ALPHA,  // Transparencia est√°ndar
     ADD,    // Aditivo (fuego)
     MUL     // Multiplicativo (sombras, oscurecimiento)
 };
@@ -39,12 +39,13 @@ public:
     virtual void setDepthWrite(bool depthWrite) = 0;
     virtual void setBlendMode(BlendMode blendMode) = 0;
 
-    //MÈtodos
+    //M√©todos
     virtual void addProgram(string& fileName) = 0;
     virtual void linkProgram() = 0;
     virtual void use() = 0;
     virtual void checkLinkerErrors() = 0;
-    virtual void setColorTextEnable(bool enable) = 0;
-    virtual void bindColorTextureSampler(int binding, Texture* text) = 0;
+    virtual void setColorTextEnable(string name) = 0;
+    virtual void setColorTextDisable(string name) = 0;
+    virtual void bindColorTextureSampler(int binding, Texture* text, string name) = 0;
     
 };

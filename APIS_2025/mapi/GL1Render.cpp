@@ -38,7 +38,7 @@ void GL1Render::setHeight(int newHeight) {
     height = newHeight;
 }
 
-// Métodos
+// MÃ©todos
 void GL1Render::init() {
     if (glfwInit() != GLFW_TRUE) {
         cout << "Error GLFWINIT " << __FILE__ << ":" << __LINE__ << endl;
@@ -60,6 +60,7 @@ void GL1Render::init() {
         glEnable(GL_DEPTH_TEST);
         glEnable(GL_BLEND);
         glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+        glEnable(GL_TEXTURE_CUBE_MAP_SEAMLESS);
     }
 }
 
@@ -78,7 +79,7 @@ void GL1Render::removeObject(Object* obj)
 {
     if (!obj)
     {
-        std::cerr << "[GL4Render] Error: Objeto no válido en removeObject\n";
+        std::cerr << "[GL4Render] Error: Objeto no vÃ¡lido en removeObject\n";
         return;
     }
 }

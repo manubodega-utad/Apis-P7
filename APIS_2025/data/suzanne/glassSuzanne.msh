@@ -1,0 +1,21 @@
+<mesh>
+	<buffers>
+		<buffer>
+			<material>
+				<color>1,1,1,0.6</color>
+				<texture type="cubeMap" >
+					<layer name="cubeTextureColor" >data/NormalCubeMap/skybox1/sky_left.png,data/NormalCubeMap/skybox1/sky_right.png,data/NormalCubeMap/skybox1/sky_front.png,data/NormalCubeMap/skybox1/sky_back.png,data/NormalCubeMap/skybox1/sky_top.png,data/NormalCubeMap/skybox1/sky_bottom.png</layer>
+				</texture>
+				<shader>data/shader.vert,data/shader.frag</shader>
+				<depthWrite>true</depthWrite>
+				<light>true</light>
+				<shininess>64</shininess>
+				<blendMode>alpha</blendMode>
+				<refraction>true</refraction>
+				<refractIndex>0.66</refractIndex>
+				<reflection>false</reflection>
+			</material>
+			<meshData>data/NormalCubeMap/suzanne/suzanne.obj</meshData>
+		</buffer>
+	</buffers>
+</mesh>

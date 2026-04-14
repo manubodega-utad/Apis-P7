@@ -23,16 +23,17 @@ public:
     void setDepthWrite(bool depthWrite) override;
     void setBlendMode(BlendMode blendMode) override;
 
-    // Métodos
+    // MÃ©todos
     void addProgram(string& fileName) override;
     void linkProgram() override;
     void use() override;
     void checkLinkerErrors() override;
-    void setColorTextEnable(bool enable) override;
-    void bindColorTextureSampler(int binding, Texture* text) override;
+    void setColorTextEnable(string name) override;
+    void setColorTextDisable(string name) override;
+    void bindColorTextureSampler(int binding, Texture* text, string name) override;
    
 private:
-    // Métodos propios
+    // MÃ©todos propios
     void readVarList();
     unsigned int getVarLocation(std::string varName);
 };

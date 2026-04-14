@@ -2,6 +2,7 @@
 #include "Factory.h"
 #include "System.h"
 #include "Mesh3D.h"
+#include "GLTexture.h"
 
 #include <iostream>
 #include "pugixml.hpp"
@@ -58,9 +59,9 @@ void Object3D::loadDataFromFile(const string& file) {
         }
 
         // Iterar sobre cada buffer del archivo
-        for (pugi::xml_node bufferNode = buffersNode.child("buffer"); 
-            bufferNode; 
-            bufferNode = bufferNode.next_sibling("buffer")) 
+        for (pugi::xml_node bufferNode = buffersNode.child("buffer");
+            bufferNode;
+            bufferNode = bufferNode.next_sibling("buffer"))
         {
 
             Mesh3D* mesh = new Mesh3D();
@@ -71,14 +72,37 @@ void Object3D::loadDataFromFile(const string& file) {
 
             // Nodo de la textura
             pugi::xml_node textureNode = materialNode.child("texture");
-
+            
             // Carga de textura si existe
             if (textureNode) {
-                string textureFile = textureNode.child("layer").text().as_string();
-                Texture* texture = Factory::getNewTexture();
-                texture->load(textureFile);
-                texture->update();
-                material->setColorText(texture);
+                std::string textureType = textureNode.attribute("type").as_string();
+
+                if (textureType == "cubeMap") {
+                    pugi::xml_node layerNode = textureNode.child("layer");
+                    std::string layerName = layerNode.attribute("name").as_string();
+                    auto fileList = splitString<string>(textureNode.child("layer").text().as_string(), ',');
+
+                    GLTexture* texture = new GLTexture(
+                        fileList[0], fileList[1],
+                        fileList[2], fileList[3],
+                        fileList[4], fileList[5]
+                    );
+                    material->setColorTexture(layerName, texture);
+                }
+                if (textureType == "color2D") {
+                    for (pugi::xml_node layerNode = textureNode.child("layer");
+                        layerNode;
+                        layerNode = layerNode.next_sibling("layer"))
+                    {
+                        std::string layerName = layerNode.attribute("name").as_string();
+                        std::string textureFile = layerNode.text().as_string();
+
+                        Texture* tex = Factory::getNewTexture();
+                        tex->load(textureFile);
+                        tex->update();
+                        material->setColorTexture(layerName, tex);
+                    }
+                }
             }
 
             // Nodo del color
@@ -180,7 +204,7 @@ void Object3D::loadDataFromFile(const string& file) {
             setMesh(mesh);
         }
         meshCache[file] = this->meshes;
-        
+
     }
     else {
         std::cerr << "[ERROR] XML cargado incorrectamente: " << result.description() << endl;
@@ -196,6 +220,7 @@ bool Object3D::loadObj(string obj, Mesh3D* mesh)
     std::vector<glm::vec4> vPos;
     std::vector<glm::vec2> vTC;
     std::vector<glm::vec4> vNorm;
+    std::vector<glm::vec4> vTan;
     bool computeNormals = false;
     std::string line;
     int vertexOffset = 0;
@@ -207,14 +232,18 @@ bool Object3D::loadObj(string obj, Mesh3D* mesh)
 
         if (key.empty()) continue;
 
-        if (key[0] != '#') {
+        if (key[0] != '#' || key == "#vta") {
             if (key == "o") {
                 meshes.push_back(mesh);
                 Material* mat = mesh->getMaterial();
                 mesh = new Mesh3D();
                 mesh->setMaterial(mat);
                 vertexOffset = vPos.size();
-                
+            }
+            if (key == "#vta") {
+                glm::vec4 t(0.0f);
+                str >> t.x >> t.y >> t.z;
+                vTan.push_back(t);
             }
             if (key == "v") {
                 glm::vec4 v(1.0f);
@@ -262,6 +291,10 @@ bool Object3D::loadObj(string obj, Mesh3D* mesh)
                             glm::vec2(0.0f)
                         };
                         computeNormals = true;
+                    }
+                    if (vTan.size() != 0)
+                    {
+                        v[i].vTan = vTan[indexes[0] - 1];
                     }
 
                     (*vtxList)[indexes[0] - 1 - vertexOffset] = v[i];

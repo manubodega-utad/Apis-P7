@@ -87,19 +87,26 @@ void GLSLProgram::readVarList() {
     }
 }
 
-void GLSLProgram::setColorTextEnable(bool enable) {
-    int loc = getVarLocation("useColorText");
-    if (loc != -1) {
-        glUniform1i(loc, enable ? 1 : 0);
-    }
+void GLSLProgram::setColorTextEnable(string name) {
+    setInt("mat.use" + name, 1);
 }
 
-void GLSLProgram::bindColorTextureSampler(int binding, Texture* text) {
-    int textureId = dynamic_cast<GLTexture*>(text)->getGLTextId();
+void GLSLProgram::setColorTextDisable(string name) {
+    setInt("mat.use" + name, 0);
+}
 
-	glActiveTexture(GL_TEXTURE0 + binding); // Activar unidad de textura
-    glBindTexture(GL_TEXTURE_2D, textureId); // Enlazar
-    glUniform1i(getVarLocation("colorText"), binding);// Usar en shader
+void GLSLProgram::bindColorTextureSampler(int binding, Texture* text, string name) {
+    GLTexture* glTex = dynamic_cast<GLTexture*>(text);
+    if (!glTex) return;
+    GLuint textureId = glTex->getGLTextId();
+
+    glActiveTexture(GL_TEXTURE0 + binding);
+    if (glTex->isCubic()) {
+        glBindTexture(GL_TEXTURE_CUBE_MAP, textureId);
+    } else {
+        glBindTexture(GL_TEXTURE_2D, textureId);
+    }
+    glUniform1i(getVarLocation(name), binding);
 }
 
 

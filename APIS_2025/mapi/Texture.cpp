@@ -10,8 +10,16 @@ Texture::Texture() : textID(0), size(0, 0), cubemap(false), bilinear(false), rep
 Texture::Texture(const std::string& fileName) : Texture()
 {
 	load(fileName);
-    this->fileName = fileName;
 }
+
+Texture::Texture(const std::string& left, const std::string& right,
+                 const std::string& front, const std::string& back,
+                 const std::string& top, const std::string& bottom) : Texture()
+{
+    load(left, right, front, back, top, bottom);
+}
+
+
 
 // Getters
 uint32_t Texture::getTextID() const {
@@ -31,7 +39,8 @@ const std::vector<pixel_t>& Texture::getRawImage() const {
 }
 
 const std::string& Texture::getFileName() const {
-    return fileName;
+    static std::string empty;
+    return fileNames.empty() ? empty : fileNames[0];
 }
 
 bool Texture::isBilinear() const {
@@ -53,7 +62,7 @@ void Texture::setRepeat(bool value) {
 }
 
 
-// Métodos
+// MÃ©todos
 void Texture::load(const std::string& filename) {
     int width, height;
     int channels = 0;
@@ -63,6 +72,8 @@ void Texture::load(const std::string& filename) {
         size = glm::ivec2(width, height);
 		rawImage.resize(width * height);
 		memcpy(rawImage.data(), data, width * height * 4);
+        fileNames = { filename };
+        cubemap = false;
 
         stbi_image_free(data);
         std::cout << "[INFO] Textura cargada desde: " << filename << " (" << width << "x" << height << ")" << std::endl;
@@ -70,7 +81,14 @@ void Texture::load(const std::string& filename) {
     else {
         std::cerr << "[ERROR] No se pudo cargar la textura: " << filename << std::endl;
     }
+}
 
-    
+void Texture::load(const std::string& left, const std::string& right,
+    const std::string& front, const std::string& back,
+    const std::string& top, const std::string& bottom)
+{
+    cubemap = true;
+    fileNames = { left, right, front, back, top, bottom };
+    std::cout << "[INFO] Cubemap configurado con 6 caras." << std::endl;
 }
 

@@ -10,12 +10,16 @@ public:
     // Constructor y Destructor
     GLTexture();
     GLTexture(const std::string& fileName);
+    GLTexture(const std::string& left, const std::string& right,
+              const std::string& front, const std::string& back,
+              const std::string& top, const std::string& bottom);
     ~GLTexture();
 
-	// Getters y Setters
+    // Getters y Setters
     GLuint getGLTextId() const;
     void setGLTextId(GLuint id);
+    bool isCubic() const { return cubemap; }
 
-    // Métodos
+    // MÃ©todos
     void update() override;
 };

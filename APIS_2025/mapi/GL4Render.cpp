@@ -22,7 +22,7 @@ GL4Render::~GL4Render()
     boList.clear();
 }
 
-// Métodos
+// MÃ©todos
 
 void GL4Render::init()
 {
@@ -58,12 +58,12 @@ void GL4Render::setupObject(Object* obj) {
         glBindVertexArray(bo.id); // Activar lista de arrays
         glBindBuffer(GL_ARRAY_BUFFER, bo.vbo); // Activar lista de vertices
         int numElements = mesh->getVertexList()->size();
-        glBufferData(GL_ARRAY_BUFFER, sizeof(vertex_t) * numElements, mesh->getVertexList()->data(), GL_STATIC_DRAW); //Copiar vértices
+        glBufferData(GL_ARRAY_BUFFER, sizeof(vertex_t) * numElements, mesh->getVertexList()->data(), GL_STATIC_DRAW); //Copiar vÃ©rtices
 
         // Guardar Ids de Buffers
-        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, bo.idxbo); // Activar lista de índices de vértices
+        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, bo.idxbo); // Activar lista de Ã­ndices de vÃ©rtices
         numElements = mesh->getTriangleIdxList()->size();
-        glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(glm::uint32) * numElements, mesh->getTriangleIdxList()->data(), GL_STATIC_DRAW); //Copiar índices de vértices
+        glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(glm::uint32) * numElements, mesh->getTriangleIdxList()->data(), GL_STATIC_DRAW); //Copiar Ã­ndices de vÃ©rtices
 
         // Position
         glEnableVertexAttribArray(0);
@@ -81,19 +81,23 @@ void GL4Render::setupObject(Object* obj) {
         glEnableVertexAttribArray(3);
         glVertexAttribPointer(3, 2, GL_FLOAT, GL_FALSE, sizeof(vertex_t), (void*)offsetof(vertex_t, vTextCoords));
 
+        // Tangent
+        glEnableVertexAttribArray(4);
+        glVertexAttribPointer(4, 4, GL_FLOAT, GL_FALSE, sizeof(vertex_t), (void*)offsetof(vertex_t, vTan));
+
         // Guardar Ids de Buffers
         boList[meshID] = bo;
     }
 }
 
-// Implementación de removeObject
+// ImplementaciÃ³n de removeObject
 void GL4Render::removeObject(Object* obj) {
 
 	GL1Render::removeObject(obj);
 
     for (Mesh3D* mesh : obj->getMeshes()) {
         if (!mesh) {
-            std::cerr << "[GL4Render] Error: Mesh no válido en removeObject\n";
+            std::cerr << "[GL4Render] Error: Mesh no vÃ¡lido en removeObject\n";
             return;
         }
 
@@ -109,7 +113,7 @@ void GL4Render::removeObject(Object* obj) {
     }
 }
 
-// Implementación de drawObjects
+// ImplementaciÃ³n de drawObjects
 void GL4Render::drawObjects(const vector<Object*>* objs)
 {
 
@@ -133,7 +137,7 @@ void GL4Render::drawObjects(const vector<Object*>* objs)
             auto bo = boList[mesh->getMeshId()];
             glBindVertexArray(bo.id); // Activar lista de arrays
             glBindBuffer(GL_ARRAY_BUFFER, bo.vbo); // Activar lista de vertices
-            glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, bo.idxbo); // Activar lista de índices de vértices
+            glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, bo.idxbo); // Activar lista de Ã­ndices de vÃ©rtices
 
             // Ordenar a Dibujar
             glDrawElements(GL_TRIANGLES, mesh->getTriangleIdxList()->size(), GL_UNSIGNED_INT, nullptr);

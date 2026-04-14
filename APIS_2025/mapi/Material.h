@@ -1,6 +1,7 @@
 #pragma once
 #include <vector>
 #include <string>
+#include <map>
 #include "RenderProgram.h"
 
 using namespace std;
@@ -8,13 +9,16 @@ using namespace std;
 class Material {
 protected:
     RenderProgram* program;
-    Texture* colorText;
+    std::map<std::string, Texture*> textures;
     glm::vec4 colorRGBA;
     int shininess = 1;
     BlendMode blendMode = BlendMode::NONE;
     bool lighting = true;
     bool culling = false;
     bool depthWrite = true;
+    bool reflection = false;
+    bool refraction = false;
+    float refractionCoef = 1.0f;
 
 public:
     // Constructor
@@ -29,57 +33,78 @@ public:
     }
 
     // Getters
-    RenderProgram* getProgram() const 
+    RenderProgram* getProgram() const
     {
-        return program; 
+        return program;
     }
-    Texture* getColorText() const { 
-        return colorText; 
+    virtual std::map<std::string, Texture*>& getColorTextures() {
+        return textures;
     }
-    glm::vec4 getColorRGBA() const {
-        return textures.count(name) ? textures[name] : nullptr; }
+    virtual Texture* getColorTexture(std::string name) { 
+        return textures.count(name) ? textures[name] : nullptr;
     }
-    int  getShininess() const { 
-        return shininess; 
+    glm::vec4 getColorRGBA() const { 
+        return colorRGBA; 
     }
-    BlendMode getBlendMode() const { 
-        return blendMode; 
+    int  getShininess() const {
+        return shininess;
     }
-    bool getLighting() const { 
-        return lighting; 
+    BlendMode getBlendMode() const {
+        return blendMode;
     }
-    bool getCulling() const { 
-        return culling; 
+    bool getLighting() const {
+        return lighting;
     }
-    bool getDepthWrite() const { 
-        return depthWrite; 
+    bool getCulling() const {
+        return culling;
+    }
+    bool getDepthWrite() const {
+        return depthWrite;
+    }
+    bool getReflection() const {
+        return reflection;
+    }
+    bool getRefraction() const {
+        return refraction;
+    }
+    float getRefractionCoef() const {
+        return refractionCoef;
     }
 
     // Setters
-    void setColorText(Texture* texture) {
-        colorText = texture;
+    virtual void setColorTexture(std::string name, Texture* t) { 
+        textures[name] = t; 
     }
     void setColorRGBA(const glm::vec4& color) {
         colorRGBA = color;
     }
-    void setShininess(int s) { 
-        shininess = s; 
+    void setShininess(int s) {
+        shininess = s;
     }
-    void setBlendMode(BlendMode mode) { 
-        blendMode = mode; 
+    void setBlendMode(BlendMode mode) {
+        blendMode = mode;
     }
-    void setLighting(bool enable) { 
-        lighting = enable; 
+    void setLighting(bool enable) {
+        lighting = enable;
     }
-    void setCulling(bool enable) { 
-        culling = enable; 
+    void setCulling(bool enable) {
+        culling = enable;
     }
     void setDepthWrite(bool enable) {
-        depthWrite = enable; 
+        depthWrite = enable;
+    }
+    void setReflection(bool r) { 
+        reflection = r; 
+    }
+    void setRefraction(bool r) { 
+        refraction = r; 
+    }
+    void setRefractionCoef(float f) { 
+        refractionCoef = f; 
     }
 
 
-    // Métodos
+    // MÃ©todos
     virtual void loadPrograms(vector<string>& files) = 0;
     virtual void prepare() = 0;
 };
