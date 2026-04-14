@@ -37,7 +37,7 @@ public:
         return colorText; 
     }
     glm::vec4 getColorRGBA() const {
-        return colorRGBA;
+        return textures.count(name) ? textures[name] : nullptr; }
     }
     int  getShininess() const { 
         return shininess; 
