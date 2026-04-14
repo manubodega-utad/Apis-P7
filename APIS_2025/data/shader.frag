@@ -43,6 +43,7 @@ in vec4 fNorm;
 in vec2 fTextCoords;
 in vec3 fTexCube;
 in mat3 TBN;
+in vec4 fDepthCoord;
 
 out vec4 fragColor;
 
@@ -80,8 +81,8 @@ void main()
     vec3 V = normalize(eyePos.xyz - fPos.xyz);
 
     // ===== AMBIENT =====
-    // El ambiente se suma una sola vez de forma global
-    vec3 result = baseColor.rgb * ambient;
+    // Objetos refractables: cubemap a intensidad completa, sin calculo de ambient ni difusa
+    vec3 result = mat.refraction ? baseColor.rgb : baseColor.rgb * ambient;
 
     // ===== LUCES =====
     for (int i = 0; i < activeLights; i++) {
@@ -91,7 +92,7 @@ void main()
         float att = 1.0;
         float spotEffect = 1.0;
 
-        // 1. Vector L y Atenuación según el TIPO
+        // 1. Vector L y AtenuaciÃ³n segÃºn el TIPO
         if (lights[i].type == DIRECTIONAL) {
             L = normalize(-lights[i].direction.xyz);
         }
@@ -101,7 +102,7 @@ void main()
             float dist = length(toL);
             L = (dist > 0.0001) ? (toL / dist) : vec3(0.0, 0.0, 1.0);
 
-            // Atenuación lineal
+            // AtenuaciÃ³n lineal
             att = 1.0 / (1.0 + lights[i].linearAttenuation * dist);
 
             if (lights[i].type == SPOT) {
@@ -114,7 +115,7 @@ void main()
             }
         }
 
-        // 2. Cálculo de Componentes (Solo si la luz alcanza este fragmento)
+        // 2. CÃ¡lculo de Componentes
         if (spotEffect > 0.0) {
             vec3 lightRGB = lights[i].color.rgb;
 
@@ -123,7 +124,7 @@ void main()
             float spec = pow(max(dot(V, R), 0.0), float(mat.shininess));
 
             if (mat.refraction) {
-                // Objeto refractable: solo especular
+                // Especular
                 result += att * spotEffect * spec * lightRGB;
             } else {
                 // Difusa + especular
@@ -134,6 +135,6 @@ void main()
         }
     }
 
-    // Proyección final del color al fragmento
+    // ProyecciÃ³n final del color al fragmento
     fragColor = vec4(result, alpha);
 }

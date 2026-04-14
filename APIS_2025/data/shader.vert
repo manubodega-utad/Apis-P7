@@ -42,7 +42,7 @@ void main() {
     gl_Position = MVP * vPos;
     fPos = M * vPos;
     fColor = vColor;
-    fNorm = N * vNorm;
+    fNorm = normalize(N * vNorm);
     fTextCoords = vTextCoords;
     fTexCube = (fPos.xyz);
 
